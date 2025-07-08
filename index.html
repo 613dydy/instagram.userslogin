@@ -1,56 +1,138 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>IPと位置情報の確認</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instagram Login Clone</title>
   <style>
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to bottom right, #e0eafc, #cfdef3);
-    padding: 2rem;
-    color: #333;
-    margin: 0;
-  }
-  h1 {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-    color: #2c3e50;
-  }
-  .info {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    line-height: 1.6;
-    max-width: 500px;
-    margin: auto;
-  }
-</style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
+    .container {
+      width: 300px;
+      text-align: center;
+      background-color: #000;
+      padding: 40px 20px;
+      border: 1px solid #222;
+    }
+
+    .logo {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 40px;
+      margin-bottom: 30px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #121212;
+      border: 1px solid #444;
+      border-radius: 4px;
+      color: #fff;
+    }
+
+    button.login {
+      width: 100%;
+      padding: 10px;
+      background-color: #385185;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #333;
+    }
+
+    .divider span {
+      margin: 0 10px;
+      color: #888;
+    }
+
+    .fb-login {
+      color: #3897f0;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .forgot {
+      font-size: 12px;
+      margin: 10px 0;
+    }
+
+    .signup {
+      margin-top: 20px;
+      padding: 15px;
+      border-top: 1px solid #333;
+    }
+
+    .signup a {
+      color: #3897f0;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .download {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .store-buttons {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .store-buttons img {
+      height: 40px;
+    }
+  </style>
 </head>
 <body>
-  <h1>あなたのアクセス情報</h1>
-  <div class="info" id="result">取得中...</div>
+  <div class="container">
+    <div class="logo">Instagram</div>
+    <input type="text" placeholder="電話番号、ユーザー ネーム、またはメールアドレス" />
+    <input type="password" placeholder="パスワード" />
+    <button class="login">ログイン</button>
 
-  <script>
-    fetch('https://ipapi.co/json/')
-      .then(response => response.json())
-      .then(data => {
-        const result = `
-          <strong>IP:</strong> ${data.ip} <br>
-          <strong>国:</strong> ${data.country_name} (${data.country_code})<br>
-          <strong>地域:</strong> ${data.region}<br>
-          <strong>市区町村:</strong> ${data.city}<br>
-          <strong>郵便番号:</strong> ${data.postal}<br>
-          <strong>プロバイダ:</strong> ${data.org}<br>
-          <strong>時刻:</strong> ${new Date().toLocaleString()}
-        `;
-        document.getElementById('result').innerHTML = result;
-      })
-      .catch(error => {
-        document.getElementById('result').innerText = '情報の取得に失敗しました。';
-        console.error('エラー:', error);
-      });
-  </script>
+    <div class="divider"><span>または</span></div>
+
+    <div class="fb-login">Facebookでログイン</div>
+    <div class="forgot">パスワードを忘れた場合</div>
+
+    <div class="signup">
+      アカウントを持っていない場合 <a href="#">登録する</a>
+    </div>
+
+    <div class="download">ダウンロード</div>
+    <div class="store-buttons">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_JP.svg" alt="Google Play" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Download_on_the_Microsoft_Store_badge.svg" alt="Microsoft Store" />
+    </div>
+  </div>
 </body>
 </html>
