@@ -4,25 +4,44 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Instagram Login Clone</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg-color: #000;
+      --text-color: #fff;
+      --input-bg: #121212;
+      --border-color: #444;
+      --button-color: #385185;
+    }
+
+    [data-theme="light"] {
+      --bg-color: #fff;
+      --text-color: #000;
+      --input-bg: #eee;
+      --border-color: #ccc;
+      --button-color: #3897f0;
+    }
+
     body {
       margin: 0;
       padding: 0;
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      background-color: #000;
-      color: #fff;
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      transition: all 0.3s ease;
     }
 
     .container {
-      width: 300px;
+      width: 320px;
       text-align: center;
-      background-color: #000;
       padding: 40px 20px;
-      border: 1px solid #222;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
     }
 
     .logo {
@@ -35,22 +54,35 @@
       width: 100%;
       padding: 10px;
       margin-bottom: 10px;
-      background-color: #121212;
-      border: 1px solid #444;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
       border-radius: 4px;
-      color: #fff;
+      color: var(--text-color);
+    }
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
     }
 
     button.login {
       width: 100%;
       padding: 10px;
-      background-color: #385185;
+      background-color: var(--button-color);
       color: #fff;
       border: none;
       border-radius: 4px;
       font-weight: bold;
       margin-top: 10px;
       cursor: pointer;
+      transition: background 0.3s ease;
     }
 
     .divider {
@@ -64,7 +96,7 @@
       content: "";
       flex: 1;
       height: 1px;
-      background: #333;
+      background: var(--border-color);
     }
 
     .divider span {
@@ -86,7 +118,7 @@
     .signup {
       margin-top: 20px;
       padding: 15px;
-      border-top: 1px solid #333;
+      border-top: 1px solid var(--border-color);
     }
 
     .signup a {
@@ -110,14 +142,40 @@
     .store-buttons img {
       height: 40px;
     }
+
+    .top-controls {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .top-controls button {
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    .error {
+      color: red;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
+  <div class="top-controls">
+    <button onclick="toggleTheme()">🌗 テーマ切替</button>
+    <button onclick="toggleLanguage()">🌐 Language</button>
+  </div>
+
   <div class="container">
     <div class="logo">Instagram</div>
-    <input type="text" placeholder="電話番号、ユーザー ネーム、またはメールアドレス" />
-    <input type="password" placeholder="パスワード" />
-    <button class="login">ログイン</button>
+    <div id="error" class="error"></div>
+    <input type="text" id="username" placeholder="電話番号、ユーザー ネーム、またはメールアドレス">
+    <div class="password-wrapper">
+      <input type="password" id="password" placeholder="パスワード">
+      <span class="toggle-password" onclick="togglePassword()">👁️</span>
+    </div>
+    <button class="login" onclick="login()">ログイン</button>
 
     <div class="divider"><span>または</span></div>
 
@@ -134,5 +192,72 @@
       <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Download_on_the_Microsoft_Store_badge.svg" alt="Microsoft Store" />
     </div>
   </div>
+
+  <script>
+    let currentLang = 'ja';
+
+    function togglePassword() {
+      const pwField = document.getElementById('password');
+      pwField.type = pwField.type === 'password' ? 'text' : 'password';
+    }
+
+    function toggleTheme() {
+      document.body.dataset.theme = document.body.dataset.theme === 'light' ? '' : 'light';
+    }
+
+    function toggleLanguage() {
+      const ja = {
+        username: "電話番号、ユーザー ネーム、またはメールアドレス",
+        password: "パスワード",
+        login: "ログイン",
+        fb: "Facebookでログイン",
+        forgot: "パスワードを忘れた場合",
+        signup: "アカウントを持っていない場合 <a href='#'>登録する</a>",
+        download: "ダウンロード"
+      };
+
+      const en = {
+        username: "Phone number, username, or email",
+        password: "Password",
+        login: "Log In",
+        fb: "Log in with Facebook",
+        forgot: "Forgot password?",
+        signup: "Don't have an account? <a href='#'>Sign up</a>",
+        download: "Download"
+      };
+
+      const t = currentLang === 'ja' ? en : ja;
+      currentLang = currentLang === 'ja' ? 'en' : 'ja';
+
+      document.getElementById('username').placeholder = t.username;
+      document.getElementById('password').placeholder = t.password;
+      document.querySelector('.login').innerText = t.login;
+      document.querySelector('.fb-login').innerText = t.fb;
+      document.querySelector('.forgot').innerText = t.forgot;
+      document.querySelector('.signup').innerHTML = t.signup;
+      document.querySelector('.download').innerText = t.download;
+    }
+
+    function login() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const error = document.getElementById('error');
+
+      if (!username || !password) {
+        error.innerText = 'すべての項目を入力してください';
+        return;
+      }
+
+      error.innerText = '';
+      localStorage.setItem('username', username);
+      alert('ログイン成功！ホーム画面へ移動します（仮）');
+      window.location.href = 'home.html'; // ダミー遷移
+    }
+
+    window.onload = function () {
+      const savedUsername = localStorage.getItem('username');
+      if (savedUsername) document.getElementById('username').value = savedUsername;
+    }
+  </script>
 </body>
 </html>
